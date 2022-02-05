@@ -49,5 +49,11 @@ class GameBoard:
         TODO()
 
     def serialize(self):
-        TODO()
+        output = ""
+        for i in range(len(self.board)):
+            row = ""
+            for j in range(len(self.board)):
+                row += "⬛️" if self.board[i][j] == 0 else "🟩"
+            output += f"{row}\n"
+        return output
         

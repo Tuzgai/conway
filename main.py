@@ -1,10 +1,14 @@
 from enum import Enum
 from gameboard import GameBoard
 import random
+import twitter_client as client
+import os
+import time
 
 class StateManager:
+
     def __init__(self):
-        TODO()
+        pass
 
     def getBoard():
         TODO()
@@ -19,13 +23,14 @@ class StateManager:
 def main():
     # get previous state
     sm = StateManager()
-    gameboard = GameBoard(28)
+    gameboard = GameBoard(size=5, seed=4)
 
-    for i in range(0, 10):
+    client.tweet("Test run! 5")
+    for i in range(0, 5):
         gameboard.display()
         gameboard.update()
-
-    gameboard.display()
+        client.tweet(f"Round {i}\n{gameboard.serialize()}")
+        time.sleep(5)
 
 def TODO():
     print("whoops, not done yet")
