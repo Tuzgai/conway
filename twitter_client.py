@@ -1,11 +1,12 @@
 from requests_oauthlib import OAuth1Session
+import requests
 import os
 import json
 from dotenv import load_dotenv
 
-def tweet(message):
-    load_dotenv()
+load_dotenv()
 
+def tweet(message):
     # This is basically the twitter sample code here: https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/main/Manage-Tweets/create_tweet.py
     # Thanks, Twitter!
 
@@ -84,3 +85,46 @@ def tweet(message):
     # Saving the response as JSON
     json_response = response.json()
     print(json.dumps(json_response, indent=4, sort_keys=True))
+
+
+# Using sample code here: https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/main/User-Tweet-Timeline/user_tweets.py
+def create_url():
+    user_id = os.environ.get("user_id")
+    return "https://api.twitter.com/2/users/{}/tweets".format(user_id)
+
+
+def get_params():
+    # Tweet fields are adjustable.
+    # Options include:
+    # attachments, author_id, context_annotations,
+    # conversation_id, created_at, entities, geo, id,
+    # in_reply_to_user_id, lang, non_public_metrics, organic_metrics,
+    # possibly_sensitive, promoted_metrics, public_metrics, referenced_tweets,
+    # source, text, and withheld
+    return {"tweet.fields": "text",
+            "max_results": 5}
+
+
+def bearer_oauth(r):
+    """
+    Method required by bearer token authentication.
+    """
+
+    r.headers["Authorization"] = f"Bearer {os.environ.get('bearer_token')}"
+    r.headers["User-Agent"] = "v2UserTweetsPython"
+    return r
+
+
+def connect_to_endpoint(url, params):
+    response = requests.request("GET", url, auth=bearer_oauth, params=params)
+    print(response)
+    if response.status_code != 200:
+        raise Exception(
+            "Request returned an error: {} {}".format(
+                response.status_code, response.text
+            )
+        )
+    return response.json()
+
+def get_latest_tweets():
+    return connect_to_endpoint(create_url(), get_params())

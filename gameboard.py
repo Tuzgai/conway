@@ -5,7 +5,7 @@ def TODO():
 
 class GameBoard:
     
-    def __init__(self, size, seed=1):
+    def __init__(self, size, seed):
         self.size = size
         self.seed = seed
         random.seed(seed)

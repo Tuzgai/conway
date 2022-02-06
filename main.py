@@ -4,35 +4,23 @@ import random
 import twitter_client as client
 import os
 import time
+import json
 
-class StateManager:
-
-    def __init__(self):
-        pass
-
-    def getBoard():
-        TODO()
-        return GameBoard()
-
-    def saveBoard(gameboard):
-        TODO()
-
-    def postBoard(gameboard):
-        TODO()
+def get_state():
+    previous_tweet = client.get_latest_tweets().get('data')[0].get('text')
+    lines = previous_tweet.split('\n')
+    seed = lines[0].split(':')[1]
+    step = lines[1].split(':')[1]
+    return (int(seed), int(step))
 
 def main():
-    # get previous state
-    sm = StateManager()
-    gameboard = GameBoard(size=5, seed=4)
+    seed, step = get_state()
 
-    client.tweet("Test run! 5")
-    for i in range(0, 5):
-        gameboard.display()
+    gameboard = GameBoard(size=5, seed=seed)
+
+    for i in range(0, step):
         gameboard.update()
-        client.tweet(f"Round {i}\n{gameboard.serialize()}")
-        time.sleep(5)
 
-def TODO():
-    print("whoops, not done yet")
+    client.tweet(f"Seed: {seed}\nStep: {step+1}\n{gameboard.serialize()}")
 
 main()
