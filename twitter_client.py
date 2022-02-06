@@ -14,12 +14,13 @@ def tweet(message):
     # export 'CONSUMER_KEY'='<your_consumer_key>'
     # export 'CONSUMER_SECRET'='<your_consumer_secret>'
 
-    consumer_key = os.environ.get("CONSUMER_KEY")
-    consumer_secret = os.environ.get("CONSUMER_SECRET")
+    consumer_key = os.environ.get("CONSUMER_KEY", "Specified environment variable is not set.")
+    consumer_secret = os.environ.get("CONSUMER_SECRET", "Specified environment variable is not set.")
 
     # Be sure to add replace the text of the with the text you wish to Tweet. You can also add parameters to post polls, quote Tweets, Tweet with reply settings, and Tweet to Super Followers in addition to other features.
     payload = {"text": message}
 
+    '''
     # Get request token
     request_token_url = "https://api.twitter.com/oauth/request_token?oauth_callback=oob&x_auth_access_type=write"
     oauth = OAuth1Session(consumer_key, client_secret=consumer_secret)
@@ -35,7 +36,7 @@ def tweet(message):
     resource_owner_secret = fetch_response.get("oauth_token_secret")
     print("Got OAuth token: %s" % resource_owner_key)
 
-    '''
+    
     # Get authorization
     base_authorization_url = "https://api.twitter.com/oauth/authorize"
     authorization_url = oauth.authorization_url(base_authorization_url)
@@ -58,8 +59,8 @@ def tweet(message):
 
     '''
 
-    access_token = os.environ.get("oauth_token")
-    access_token_secret = os.environ.get("oauth_token_secret")
+    access_token = os.environ.get("OAUTH_TOKEN", "Specified environment variable is not set.")
+    access_token_secret = os.environ.get("OAUTH_TOKEN_SECRET", "Specified environment variable is not set.")
 
     # Make the request
     oauth = OAuth1Session(
@@ -89,7 +90,7 @@ def tweet(message):
 
 # Using sample code here: https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/main/User-Tweet-Timeline/user_tweets.py
 def create_url():
-    user_id = os.environ.get("user_id")
+    user_id = os.environ.get("USER_ID", "Specified environment variable is not set.")
     return "https://api.twitter.com/2/users/{}/tweets".format(user_id)
 
 
@@ -110,7 +111,7 @@ def bearer_oauth(r):
     Method required by bearer token authentication.
     """
 
-    r.headers["Authorization"] = f"Bearer {os.environ.get('bearer_token')}"
+    r.headers["Authorization"] = f"Bearer {os.environ.get('BEARER_TOKEN', 'Specified environment variable is not set.')}"
     r.headers["User-Agent"] = "v2UserTweetsPython"
     return r
 
