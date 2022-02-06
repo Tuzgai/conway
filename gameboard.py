@@ -45,10 +45,7 @@ class GameBoard:
             print(row)
         print("\n")
 
-    def deserialize(self, str):
-        TODO()
-
-    def serialize(self):
+    def get_twitter_content(self):
         output = ""
         for i in range(len(self.board)):
             row = ""

@@ -18,9 +18,18 @@ def main():
 
     gameboard = GameBoard(size=5, seed=seed)
 
+    previous_rounds = []
     for i in range(0, step):
         gameboard.update()
+        gameboard.display()
+        previous_rounds.append(gameboard.get_twitter_content())
 
-    client.tweet(f"Seed: {seed}\nStep: {step+1}\n{gameboard.serialize()}")
+    current_round = gameboard.get_twitter_content()
+    for round in previous_rounds[:-1]:
+        if round == current_round:
+            client.tweet(f"Seed: {seed+1}\nStep: {-1}\nCycle detected, starting new seed!")
+            return
+
+    client.tweet(f"Seed: {seed}\nStep: {step+1}\n{gameboard.get_twitter_content()}")
 
 main()
