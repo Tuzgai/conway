@@ -15,9 +15,13 @@ def get_state():
 
 def main():
     seed, step = get_state()
-    size = 12
+    size = 100
 
-    gameboard = GameBoard(size=size, seed=seed)
+    gameboard = GameBoard(size=size, 
+                          seed=seed,
+                          view_x=50,
+                          view_y=50,
+                          view_size=10)
 
     previous_rounds = []
     for i in range(0, step):

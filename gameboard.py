@@ -5,11 +5,14 @@ def TODO():
 
 class GameBoard:
     
-    def __init__(self, size, seed):
+    def __init__(self, size, seed, view_x, view_y, view_size):
         self.size = size
         self.seed = seed
         random.seed(seed)
         self.board = [[random.choice([0,1]) for i in range(size)] for j in range(size)]
+        self.view_x = view_x
+        self.view_y = view_y
+        self.view_size = view_size
 
     def update(self):
         new_board = [[0 for i in range(self.size)] for j in range(self.size)]
@@ -47,10 +50,10 @@ class GameBoard:
 
     def get_twitter_content(self):
         output = ""
-        for i in range(1, len(self.board)-1):
+        for i in range(self.view_size-1):
             row = ""
-            for j in range(1, len(self.board)-1):
-                row += "⬛️" if self.board[i][j] == 0 else "🟩"
+            for j in range(self.view_size-1):
+                row += "⬛️" if self.board[i+self.view_x][j+self.view_y] == 0 else "🟩"
             output += f"{row}\n"
         return output
         
