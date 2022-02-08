@@ -50,9 +50,9 @@ class GameBoard:
 
     def get_twitter_content(self):
         output = ""
-        for i in range(self.view_size-1):
+        for i in range(self.view_size):
             row = ""
-            for j in range(self.view_size-1):
+            for j in range(self.view_size):
                 row += "⬛️" if self.board[i+self.view_x][j+self.view_y] == 0 else "🟩"
             output += f"{row}\n"
         return output
