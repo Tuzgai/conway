@@ -24,7 +24,7 @@ def main(*_):
                           view_size=10)
 
     previous_rounds = []
-    for i in range(0, step):
+    for i in range(0, step+1):
         gameboard.update()
         previous_rounds.append(gameboard.get_twitter_content())
 
