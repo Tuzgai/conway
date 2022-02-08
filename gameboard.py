@@ -9,10 +9,10 @@ class GameBoard:
         self.size = size
         self.seed = seed
         random.seed(seed)
-        self.board = [[random.choice([0,1]) for i in range(size+5)] for j in range(size+5)]
+        self.board = [[random.choice([0,1]) for i in range(size)] for j in range(size)]
 
     def update(self):
-        new_board = [[0 for i in range(self.size+5)] for j in range(self.size+5)]
+        new_board = [[0 for i in range(self.size)] for j in range(self.size)]
 
         for i in range(1, len(self.board)-1):
             for j in range(1, len(self.board)-1):
@@ -41,15 +41,15 @@ class GameBoard:
         for i in range(len(self.board)):
             row = ""
             for j in range(len(self.board)):
-                row += "." if self.board[i][j] == 0 else "X"
+                row += "-" if self.board[i][j] == 0 else "X"
             print(row)
         print("\n")
 
     def get_twitter_content(self):
         output = ""
-        for i in range(len(self.board)):
+        for i in range(1, len(self.board)-1):
             row = ""
-            for j in range(len(self.board)):
+            for j in range(1, len(self.board)-1):
                 row += "⬛️" if self.board[i][j] == 0 else "🟩"
             output += f"{row}\n"
         return output
