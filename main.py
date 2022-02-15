@@ -15,15 +15,16 @@ def get_state():
 
 def main(*_):
     seed, step = get_state()
-    size = 10
-    view_x=0
-    view_y=0
+    size = 12
+    view_size = 10
+    view_x=1
+    view_y=1
 
     gameboard = GameBoard(size=size, 
                           seed=seed,
                           view_x=view_x,
                           view_y=view_y,
-                          view_size=size)
+                          view_size=view_size)
 
     previous_rounds = []
     for i in range(0, step+1):
@@ -34,10 +35,8 @@ def main(*_):
     for round in previous_rounds[:-1]:
         if round == current_round:
             seed += 1
-            gameboard = GameBoard(size=size, seed=seed, view_x=view_x, view_y=view_y, view_size=size)
+            gameboard = GameBoard(size=size, seed=seed, view_x=view_x, view_y=view_y, view_size=view_size)
             client.tweet(f"Seed: {seed+1}\nStep: {0}\nCycle detected, starting new seed!\n{gameboard.get_twitter_content()}")
             return
-
-    client.tweet(f"Seed: {seed}\nStep: {step+1}\n{current_round}")
 
 main()
